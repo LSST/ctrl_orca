@@ -24,8 +24,9 @@
 Tests of the SharedData class
 """
 
-import unittest
 import threading
+import unittest
+
 import lsst.utils.tests
 from lsst.ctrl.orca.multithreading import SharedData
 
@@ -35,7 +36,6 @@ def setup_module(module):
 
 
 class ShareDataTestCase(lsst.utils.tests.TestCase):
-
     def setUp(self):
         self.sd = SharedData.SharedData()
 
@@ -80,7 +80,7 @@ class ShareDataTestCase(lsst.utils.tests.TestCase):
     def testInit(self):
         self._initData()
         attrs = self.sd.dir()
-        self.assertEqual(len(attrs), 3, "Wrong number of items: "+str(attrs))
+        self.assertEqual(len(attrs), 3, "Wrong number of items: " + str(attrs))
         for key in "name test config".split():
             self.assertIn(key, attrs, "Missing attr: " + key)
 
@@ -106,19 +106,18 @@ class ShareDataTestCase(lsst.utils.tests.TestCase):
             self.sd.name = "Plante"
             self.assertEqual(self.sd.name, "Plante")
         attrs = self.sd.dir()
-        self.assertEqual(len(attrs), 3, "Wrong number of items: "+str(attrs))
+        self.assertEqual(len(attrs), 3, "Wrong number of items: " + str(attrs))
 
     def testAdd(self):
         self._initData()
         with self.sd:
             self.sd.lname = "Plante"
             attrs = self.sd.dir()
-            self.assertEqual(len(attrs), 4, "Wrong number of items: "+str(attrs))
+            self.assertEqual(len(attrs), 4, "Wrong number of items: " + str(attrs))
             self.assertEqual(self.sd.lname, "Plante")
 
 
 class ReadableShareDataTestCase(lsst.utils.tests.TestCase):
-
     def setUp(self):
         self.sd = SharedData.SharedData(False)
 
@@ -154,7 +153,7 @@ class ReadableShareDataTestCase(lsst.utils.tests.TestCase):
     def testInit(self):
         self._initData()
         attrs = self.sd.dir()
-        self.assertEqual(len(attrs), 3, "Wrong number of items: "+str(attrs))
+        self.assertEqual(len(attrs), 3, "Wrong number of items: " + str(attrs))
         for key in "name test config".split():
             self.assertIn(key, attrs, "Missing attr: " + key)
 
@@ -179,19 +178,18 @@ class ReadableShareDataTestCase(lsst.utils.tests.TestCase):
             self.sd.name = "Plante"
             self.assertEqual(self.sd.name, "Plante")
         attrs = self.sd.dir()
-        self.assertEqual(len(attrs), 3, "Wrong number of items: "+str(attrs))
+        self.assertEqual(len(attrs), 3, "Wrong number of items: " + str(attrs))
 
     def testAdd(self):
         self._initData()
         with self.sd:
             self.sd.lname = "Plante"
             attrs = self.sd.dir()
-            self.assertEqual(len(attrs), 4, "Wrong number of items: "+str(attrs))
+            self.assertEqual(len(attrs), 4, "Wrong number of items: " + str(attrs))
             self.assertEqual(self.sd.lname, "Plante")
 
 
 class MultiThreadTestCase(lsst.utils.tests.TestCase):
-
     def setUp(self):
         self.sd = SharedData.SharedData(False, {"c": 0})
 
@@ -222,7 +220,6 @@ class MultiThreadTestCase(lsst.utils.tests.TestCase):
 
 
 class TstThread(threading.Thread):
-
     def __init__(self, data):
         threading.Thread.__init__(self)
         self.data = data

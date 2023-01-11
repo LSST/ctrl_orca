@@ -7,7 +7,9 @@ class ScriptTemplateConfig(pexConfig.Config):
     # input file
     inputFile = pexConfig.Field("input file", str)
     # key value pars to substitute for the template
-    keywords = pexConfig.DictField("key value pairs", keytype=str, itemtype=str, default=dict())
+    keywords = pexConfig.DictField(
+        "key value pairs", keytype=str, itemtype=str, default=dict()
+    )
     # output file for results of template substitution
     outputFile = pexConfig.Field("output file", str)
 
@@ -19,12 +21,14 @@ class JobTemplateConfig(pexConfig.Config):
     # condor template configuration
     condor = pexConfig.ConfigField("template", ScriptTemplateConfig)
 
+
 # script
 
 
 class ScriptConfig(pexConfig.Config):
     # job script template
     script = pexConfig.ConfigField("job script", ScriptTemplateConfig)
+
 
 # DAG generation script
 
@@ -43,7 +47,10 @@ class DagGeneratorConfig(pexConfig.Config):
 class SitesConfig(pexConfig.Config):
     inputFile = pexConfig.Field("input", str)
     outputFile = pexConfig.Field("output", str)
-    keywords = pexConfig.DictField("key value pairs", keytype=str, itemtype=str, default=dict())
+    keywords = pexConfig.DictField(
+        "key value pairs", keytype=str, itemtype=str, default=dict()
+    )
+
 
 # DAX generation script
 
@@ -61,8 +68,7 @@ class DaxGeneratorConfig(pexConfig.Config):
     transformFile = pexConfig.Field("transform", str)
 
 
-typemap = {"dag": DagGeneratorConfig,
-           "dax": DaxGeneratorConfig}
+typemap = {"dag": DagGeneratorConfig, "dax": DaxGeneratorConfig}
 
 
 # task

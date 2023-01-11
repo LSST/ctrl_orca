@@ -25,19 +25,19 @@ import os.path
 import socket
 import threading
 import time
+from http.server import HTTPServer
+from socketserver import ThreadingMixIn
+
+import lsst.log as log
 from lsst.ctrl.orca.config.ProductionConfig import ProductionConfig
 from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
 from lsst.ctrl.orca.StatusListener import StatusListener
-import lsst.log as log
-from http.server import HTTPServer
-from socketserver import ThreadingMixIn
-from .ServiceHandler import ServiceHandler
 
 from .EnvString import EnvString
-from .exceptions import ConfigurationError
-from .exceptions import MultiIssueConfigurationError
+from .exceptions import ConfigurationError, MultiIssueConfigurationError
 from .multithreading import SharedData
 from .ProductionRunConfigurator import ProductionRunConfigurator
+from .ServiceHandler import ServiceHandler
 
 
 def MakeServiceHandlerClass(productionRunManager, runid):
@@ -45,6 +45,7 @@ def MakeServiceHandlerClass(productionRunManager, runid):
         def __init__(self, *args, **kwargs):
             self.setParent(productionRunManager, runid)
             super(CustomHandler, self).__init__(*args, **kwargs)
+
     return CustomHandler
 
 
@@ -85,7 +86,9 @@ class ProductionRunManager:
         if os.path.isabs(configFileName):
             self.fullConfigFilePath = configFileName
         else:
-            self.fullConfigFilePath = os.path.join(os.path.realpath('.'), configFileName)
+            self.fullConfigFilePath = os.path.join(
+                os.path.realpath("."), configFileName
+            )
 
         # create Production configuration
         self.config = ProductionConfig()
@@ -142,9 +145,12 @@ class ProductionRunManager:
             self._locked.acquire()
 
             # TODO - SRP
-            self._productionRunConfigurator = self.createConfigurator(self.runid,
-                                                                      self.fullConfigFilePath)
-            workflowManagers = self._productionRunConfigurator.configure(workflowVerbosity)
+            self._productionRunConfigurator = self.createConfigurator(
+                self.runid, self.fullConfigFilePath
+            )
+            workflowManagers = self._productionRunConfigurator.configure(
+                workflowVerbosity
+            )
 
             self._workflowManagers = {"__order": []}
             for wfm in workflowManagers:
@@ -181,7 +187,10 @@ class ProductionRunManager:
             if self.isRunning():
                 log.info("Production Run %s is already running" % self.runid)
             if self.isDone():
-                log.info("Production Run %s has already run; start with new runid" % self.runid)
+                log.info(
+                    "Production Run %s has already run; start with new runid"
+                    % self.runid
+                )
             return False
 
         # set configuration check care level.
@@ -205,7 +214,9 @@ class ProductionRunManager:
 
             # make sure the configuration was successful.
             if not self._workflowManagers:
-                raise ConfigurationError("Failed to obtain workflowManagers from configurator")
+                raise ConfigurationError(
+                    "Failed to obtain workflowManagers from configurator"
+                )
 
             if not skipConfigCheck:
                 self.checkConfiguration(checkCare)
@@ -336,7 +347,9 @@ class ProductionRunManager:
 
         myProblems = issueExc
         if myProblems is None:
-            myProblems = MultiIssueConfigurationError("problems encountered while checking configuration")
+            myProblems = MultiIssueConfigurationError(
+                "problems encountered while checking configuration"
+            )
 
         # check production-wide configuration
         self._productionRunConfigurator.checkConfiguration(care, myProblems)
@@ -444,7 +457,8 @@ class ProductionRunManager:
         return self._workflowManagers[name]
 
     class ThreadedServer(ThreadingMixIn, HTTPServer):
-        """ threaded server """
+        """threaded server"""
+
         def server_bind(self):
             HTTPServer.server_bind(self)
 
@@ -475,6 +489,7 @@ class ProductionRunManager:
         -----
         This is a private class.
         """
+
         def __init__(self, parent, runid, pollingIntv=1.0, listenTimeout=10):
             threading.Thread.__init__(self)
             self.setDaemon(True)
@@ -484,21 +499,19 @@ class ProductionRunManager:
             self._timeout = listenTimeout
 
             handlerClass = MakeServiceHandlerClass(parent, runid)
-            self.server = parent.ThreadedServer(('0.0.0.0', 0), handlerClass)
+            self.server = parent.ThreadedServer(("0.0.0.0", 0), handlerClass)
             self.server.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-            print('server socket listening at %d' % self.server.server_port)
+            print("server socket listening at %d" % self.server.server_port)
 
         def run(self):
-            """Set Manager and serve requests until complete.
-            """
+            """Set Manager and serve requests until complete."""
             self.server.setManager(self._parent)
 
             self.server.serve()
             log.debug("Everything shutdown - All finished")
 
     def _startServiceThread(self):
-        """Create a shutdown thread, and start it
-        """
+        """Create a shutdown thread, and start it"""
         self._sdthread = ProductionRunManager._ServiceEndpoint(self, self.runid)
         self._sdthread.start()
 
@@ -513,7 +526,6 @@ class ProductionRunManager:
         return self._sdthread
 
     def joinShutdownThread(self):
-        """Thread join the shutdown thread for this production
-        """
+        """Thread join the shutdown thread for this production"""
         if self._sdthread is not None:
             self._sdthread.join()

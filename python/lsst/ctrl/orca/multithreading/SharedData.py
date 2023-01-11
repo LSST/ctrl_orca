@@ -143,8 +143,11 @@ class SharedData:
                 if key in realattrs:
                     bad.append(key)
             if len(bad) > 0:
-                raise ValueError("Names cause conflicts with functions or " +
-                                 "internal data: " + str(bad))
+                raise ValueError(
+                    "Names cause conflicts with functions or "
+                    + "internal data: "
+                    + str(bad)
+                )
 
             for key in data:
                 self._d[key] = data[key]

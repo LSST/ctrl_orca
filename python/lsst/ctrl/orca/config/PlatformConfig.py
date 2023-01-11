@@ -16,6 +16,7 @@ class HwConfig(pexConfig.Config):
     # maximum ram used node
     maxRamPerNode = pexConfig.Field("maximum RAM per node", float)
 
+
 # deployment configuration
 
 
@@ -24,6 +25,7 @@ class DeployConfig(pexConfig.Config):
     defaultDomain = pexConfig.Field("default internet domain", str)
     # node names requested
     nodes = pexConfig.ListField("node names", str)
+
 
 # platform configuration
 

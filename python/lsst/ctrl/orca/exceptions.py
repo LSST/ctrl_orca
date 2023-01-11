@@ -23,8 +23,9 @@
 
 class ConfigurationError(RuntimeError):
     """An exception that indicates that an error occurred in the configuration
-       of a production run or one of its components.
+    of a production run or one of its components.
     """
+
     pass
 
 
@@ -58,8 +59,7 @@ class MultiIssueConfigurationError(ConfigurationError):
             self.addProblem(problem)
 
     def addProblem(self, msg):
-        """Add a message indicating one of the problems encountered
-        """
+        """Add a message indicating one of the problems encountered"""
         self._probs.append(msg)
 
     def hasProblems(self):

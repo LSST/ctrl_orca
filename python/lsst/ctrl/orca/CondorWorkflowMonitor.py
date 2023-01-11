@@ -22,11 +22,11 @@
 
 import threading
 import time
-import lsst.log as log
 
-from lsst.ctrl.orca.WorkflowMonitor import WorkflowMonitor
-from lsst.ctrl.orca.multithreading import SharedData
+import lsst.log as log
 from lsst.ctrl.orca.CondorJobs import CondorJobs
+from lsst.ctrl.orca.multithreading import SharedData
+from lsst.ctrl.orca.WorkflowMonitor import WorkflowMonitor
 
 
 # HTCondor workflow monitor
@@ -40,6 +40,7 @@ class CondorWorkflowMonitor(WorkflowMonitor):
     monitorConfig : Config
         configuration file for monitor information
     """
+
     def __init__(self, condorDagId, monitorConfig):
 
         # _locked: a container for data to be shared across threads that
@@ -58,9 +59,9 @@ class CondorWorkflowMonitor(WorkflowMonitor):
         self._wfMonitorThread = None
 
         with self._locked:
-            self._wfMonitorThread = CondorWorkflowMonitor._WorkflowMonitorThread(self,
-                                                                                 self.condorDagId,
-                                                                                 self.monitorConfig)
+            self._wfMonitorThread = CondorWorkflowMonitor._WorkflowMonitorThread(
+                self, self.condorDagId, self.monitorConfig
+            )
 
     class _WorkflowMonitorThread(threading.Thread):
         """Workflow thread that watches for shutdown
@@ -74,6 +75,7 @@ class CondorWorkflowMonitor(WorkflowMonitor):
         monitorConfig : `Config`
             configuration file for monitor information
         """
+
         def __init__(self, parent, condorDagId, monitorConfig):
             threading.Thread.__init__(self)
             self.setDaemon(True)
@@ -86,8 +88,7 @@ class CondorWorkflowMonitor(WorkflowMonitor):
             self.monitorConfig = monitorConfig
 
         def run(self):
-            """Continously monitor life of workflow, shutting down when complete
-            """
+            """Continously monitor life of workflow, shutting down when complete"""
             cj = CondorJobs()
             log.debug("CondorWorkflowMonitor Thread started")
             statusCheckInterval = int(self.monitorConfig.statusCheckInterval)
@@ -103,15 +104,13 @@ class CondorWorkflowMonitor(WorkflowMonitor):
                         self._parent._locked.running = False
 
     def startMonitorThread(self):
-        """Begin one monitor thread
-        """
+        """Begin one monitor thread"""
         with self._locked:
             self._wfMonitorThread.start()
             self._locked.running = True
 
     def stopWorkflow(self, urgency):
-        """Stop the workflow
-        """
+        """Stop the workflow"""
         log.debug("CondorWorkflowMonitor:stopWorkflow")
 
         # do a condor_rm on the cluster id for the dag we submitted.

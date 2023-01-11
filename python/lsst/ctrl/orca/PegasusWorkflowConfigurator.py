@@ -20,17 +20,16 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import sys
 import os
 import os.path
+import sys
 from shutil import copy
 
 import lsst.log as log
-
 from lsst.ctrl.orca.EnvString import EnvString
-from lsst.ctrl.orca.WorkflowConfigurator import WorkflowConfigurator
 from lsst.ctrl.orca.PegasusWorkflowLauncher import PegasusWorkflowLauncher
 from lsst.ctrl.orca.TemplateWriter import TemplateWriter
+from lsst.ctrl.orca.WorkflowConfigurator import WorkflowConfigurator
 
 ##
 #
@@ -183,7 +182,9 @@ class PegasusWorkflowConfigurator(WorkflowConfigurator):
             # generate dax
             daxScript = EnvString.resolve(generatorConfig.script)
             copy(daxScript, scriptDir)
-            daxGenerator = os.path.join(scriptDir, os.path.basename(generatorConfig.script))
+            daxGenerator = os.path.join(
+                scriptDir, os.path.basename(generatorConfig.script)
+            )
 
             log.debug("PegasusWorkflowConfigurator:configure: generate dax")
             daxGeneratorInput = EnvString.resolve(generatorConfig.inputFile)
@@ -211,12 +212,16 @@ class PegasusWorkflowConfigurator(WorkflowConfigurator):
 
         # create the Launcher
 
-        workflowLauncher = PegasusWorkflowLauncher(self.prodConfig, self.wfConfig, self.runid,
-                                                   self.localStagingDir,
-                                                   sitesXMLFile,
-                                                   transformFile,
-                                                   "output.dax",
-                                                   wfConfig.monitor)
+        workflowLauncher = PegasusWorkflowLauncher(
+            self.prodConfig,
+            self.wfConfig,
+            self.runid,
+            self.localStagingDir,
+            sitesXMLFile,
+            transformFile,
+            "output.dax",
+            wfConfig.monitor,
+        )
         return workflowLauncher
 
     def writeSitesXML(self, outputFile, template, keywords):
@@ -241,8 +246,7 @@ class PegasusWorkflowConfigurator(WorkflowConfigurator):
         writer.rewrite(template, outputFile, pairs)
 
     def getWorkflowName(self):
-        """get the workflow name
-        """
+        """get the workflow name"""
         return self.wfName
 
     # @deprecated

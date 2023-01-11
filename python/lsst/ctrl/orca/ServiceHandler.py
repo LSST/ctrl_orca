@@ -20,8 +20,8 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-from http.server import BaseHTTPRequestHandler
 import json
+from http.server import BaseHTTPRequestHandler
 
 
 class ServiceHandler(BaseHTTPRequestHandler):
@@ -43,18 +43,17 @@ class ServiceHandler(BaseHTTPRequestHandler):
         self.runid = runid
 
     def do_DELETE(self):
-        """handle a HTTP DELETE request
-        """
+        """handle a HTTP DELETE request"""
         # check to be sure that we handle this type of request
         # produce an error if we don't see what we expect to see
         if self.path == self.production:
-            s = self.rfile.read(int(self.headers['Content-length']))
+            s = self.rfile.read(int(self.headers["Content-length"]))
             # check for payload validity
             # produce an error if we don't see what we expect to see
             try:
                 data = json.loads(s)
-                level = data['level']
-                runid = data['runid']
+                level = data["level"]
+                runid = data["runid"]
                 if runid != self.runid:
                     raise ValueError("invalid runid received")
                 self.send_response(204)

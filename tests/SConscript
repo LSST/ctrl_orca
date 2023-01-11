@@ -1,5 +1,6 @@
 # -*- python -*-
 from lsst.sconsUtils import scripts
+
 scripts.BasicSConscript.tests(pyList=[])
 # scripts.BasicSConscript.tests(
 #     ignoreList=["Provenance_1.py", "testMySQLConfigurator.py"]

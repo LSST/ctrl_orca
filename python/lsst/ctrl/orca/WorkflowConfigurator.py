@@ -21,7 +21,6 @@
 #
 
 import lsst.log as log
-
 from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
 
 ##
@@ -120,7 +119,7 @@ class WorkflowConfigurator:
         # @return a string describing this configuration group
         def __str__(self):
             print("self.configName = ", self.configName, "self.config = ", self.config)
-            return "configName ="+self.configName
+            return "configName =" + self.configName
 
     def __init__(self, runid, prodConfig, wfConfig):
         # the run id associated with this workflow
@@ -134,10 +133,12 @@ class WorkflowConfigurator:
         # the workflow configuration
         self.wfConfig = wfConfig
 
-        raise RuntimeError("Attempt to instantiate abstract class: WorkflowConfigurator; see class docs")
+        raise RuntimeError(
+            "Attempt to instantiate abstract class: WorkflowConfigurator; see class docs"
+        )
 
     def configure(self, provSetup, workflowVerbosity=None):
-        """ Configure the workflow (including database, and any specialized required setup)
+        """Configure the workflow (including database, and any specialized required setup)
 
         Parameters
         ----------
@@ -266,7 +267,9 @@ class WorkflowConfigurator:
                     if config.runCount is not None:
                         runCount = config.runCount
                     for i in range(runCount):
-                        expanded.append(self.ConfigGroup(pipelineName, config, i + 1, totalCount))
+                        expanded.append(
+                            self.ConfigGroup(pipelineName, config, i + 1, totalCount)
+                        )
                         totalCount = totalCount + 1
 
                 return expanded

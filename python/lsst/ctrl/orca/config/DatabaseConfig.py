@@ -1,4 +1,5 @@
 import lsst.pex.config as pexConfig
+
 # from . import FakeTypeMap as fake
 # from . import WorkflowConfig as work
 
@@ -11,6 +12,7 @@ class AuthInfo(pexConfig.Config):
     # port number
     port = pexConfig.Field("database port", int)
 
+
 # run cleanup configuration
 
 
@@ -19,6 +21,7 @@ class RunCleanup(pexConfig.Config):
     daysFirstNotice = pexConfig.Field("first notice", int)
     # days until final notice is sent
     daysFinalNotice = pexConfig.Field("last notice", int)
+
 
 # database system configuration
 
@@ -29,12 +32,14 @@ class DatabaseSystem(pexConfig.Config):
     # run clean up configuration
     runCleanup = pexConfig.ConfigField("runCleanup ", RunCleanup)
 
+
 # production database configuration
 
 
 class ProductionDatabaseConfig(pexConfig.Config):
     # global database name
     globalDbName = pexConfig.Field("global db name", str)
+
 
 # workflow database configuration
 

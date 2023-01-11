@@ -30,7 +30,7 @@ import socket
 
 class TemplateWriter:
     """Takes templates and subtitutes the values for the given keys,
-       writing a new file generated from the template.
+    writing a new file generated from the template.
     """
 
     def __init__(self):
@@ -51,8 +51,8 @@ class TemplateWriter:
         pairs : `dict`
             dictionary containing key/value pairs
         """
-        fpInput = open(inputFile, 'r')
-        fpOutput = open(outputFile, 'w')
+        fpInput = open(inputFile, "r")
+        fpOutput = open(outputFile, "w")
 
         while True:
             line = fpInput.readline()
@@ -61,13 +61,13 @@ class TemplateWriter:
 
             # replace the "standard" orca names first
             for name in self.orcaValues:
-                key = "$"+name
+                key = "$" + name
                 val = str(self.orcaValues[name])
                 line = line.replace(key, val)
 
             # replace the user defined names
             for name in pairs:
-                key = "$"+name
+                key = "$" + name
                 val = str(pairs[name])
                 line = line.replace(key, val)
             fpOutput.write(line)

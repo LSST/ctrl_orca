@@ -14,6 +14,7 @@ class FrameworkConfig(pexConfig.Config):
     # environment to set up for program execution
     environment = pexConfig.Field("environment to set up", str)
 
+
 # pipeline definition configuration
 
 

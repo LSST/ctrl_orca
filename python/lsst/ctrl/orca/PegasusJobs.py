@@ -20,8 +20,9 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import subprocess
 import re
+import subprocess
+
 import lsst.log as log
 from lsst.ctrl.orca.CondorJobs import CondorJobs
 
@@ -86,10 +87,12 @@ class PegasusJobs(CondorJobs):
         statusexp = re.compile(r".*pegasus-status -l ((\W|\w)+)")
         removeexp = re.compile(r".*pegasus-remove ((\W|\w)+)")
 
-        cmd = ("pegasus-plan -Dpegasus.transfer.links=true -Dpegasus.catalog.site.file=%s"
-               " -Dpegasus.catalog.transformation.file=%s -Dpegasus.data.configuration=sharedfs"
-               " --sites lsstvc --output-dir output --dir submit --dax %s --submit"
-               % (sitesFile, transformationFile, daxFile))
+        cmd = (
+            "pegasus-plan -Dpegasus.transfer.links=true -Dpegasus.catalog.site.file=%s"
+            " -Dpegasus.catalog.transformation.file=%s -Dpegasus.data.configuration=sharedfs"
+            " --sites lsstvc --output-dir output --dir submit --dax %s --submit"
+            % (sitesFile, transformationFile, daxFile)
+        )
         print(cmd)
         log.debug(cmd)
         process = subprocess.Popen(cmd.split(), shell=False, stdout=subprocess.PIPE)

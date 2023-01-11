@@ -20,8 +20,8 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import re
 import os
+import re
 
 
 class EnvString:
@@ -44,15 +44,16 @@ class EnvString:
             the resulting string with environment variable info substituted.
         """
 
-        p = re.compile(r'\$[a-zA-Z0-9_]+')
+        p = re.compile(r"\$[a-zA-Z0-9_]+")
         retVal = strVal
         exprs = p.findall(retVal)
         for i in exprs:
             var = i[1:]
             val = os.getenv(var, None)
             if val is None:
-                raise RuntimeError("couldn't find "+i+" environment variable")
+                raise RuntimeError("couldn't find " + i + " environment variable")
             retVal = p.sub(val, retVal, 1)
         return retVal
+
     # static method to resolve string
     resolve = staticmethod(resolve)

@@ -23,9 +23,10 @@
 #
 
 import os
-import subprocess
 import re
+import subprocess
 import time
+
 import lsst.log as log
 
 
@@ -100,9 +101,11 @@ class CondorJobs:
             pop = os.popen("condor_q", "r")
             bJobSeenNow = False
             if (secondsWaited > 0) and ((secondsWaited % 60) == 0):
-                minutes = secondsWaited/60
+                minutes = secondsWaited / 60
                 msg = "waited %d minute%s so far. still waiting for job %s to run."
-                print(msg % ((secondsWaited / 60), ("" if (minutes == 1) else "s"), num))
+                print(
+                    msg % ((secondsWaited / 60), ("" if (minutes == 1) else "s"), num)
+                )
             while 1:
                 line = pop.readline()
                 line = line.decode()
@@ -112,25 +115,25 @@ class CondorJobs:
                 if len(values) == 0:
                     continue
                 runstate = values[5]
-                if (values[0] == jobNum):
+                if values[0] == jobNum:
                     cJobSeen = cJobSeen + 1
                     bJobSeenNow = True
-                if (values[0] == jobNum) and (runstate == 'R'):
+                if (values[0] == jobNum) and (runstate == "R"):
                     pop.close()
                     print("Job %s is now being run." % num)
                     return runstate
-                if (values[0] == jobNum) and (runstate == 'H'):
+                if (values[0] == jobNum) and (runstate == "H"):
                     pop.close()
                     # throw exception here
                     print("Job %s is being held.  Please review the logs." % num)
                     return runstate
-                if (values[0] == jobNum) and (runstate == 'X'):
+                if (values[0] == jobNum) and (runstate == "X"):
                     print(values)
                     pop.close()
                     # throw exception here
                     print("Saw job %s, but it was being aborted" % num)
                     return runstate
-                if (values[0] == jobNum) and (runstate == 'C'):
+                if (values[0] == jobNum) and (runstate == "C"):
                     pop.close()
                     # throw exception here
                     print("Job %s is being cancelled." % num)
@@ -171,14 +174,14 @@ class CondorJobs:
                 runstate = values[5]
                 for jobEntry in jobList:
                     jobId = "%s.0" % jobEntry
-                    if (jobNum == jobId) and (runstate == 'R'):
+                    if (jobNum == jobId) and (runstate == "R"):
                         jobList = [job for job in jobList if job[:] != jobEntry]
                         if len(jobList) == 0:
                             return
                         break
                     else:
                         continue
-                    if (jobNum == jobEntry) and (runstate == 'H'):
+                    if (jobNum == jobEntry) and (runstate == "H"):
                         pop.close()
                         # throw exception here
                         return
@@ -236,7 +239,7 @@ class CondorJobs:
             condor job id
         """
         log.debug("CondorJobs: killCondorId %s", str(cid))
-        cmd = "condor_rm "+str(cid)
+        cmd = "condor_rm " + str(cid)
         process = subprocess.Popen(cmd.split(), shell=False, stdout=subprocess.PIPE)
         line = process.stdout.readline()
         line = line.decode()

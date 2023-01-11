@@ -5,4 +5,6 @@ import lsst.pex.config as pexConfig
 
 class MonitorConfig(pexConfig.Config):
     # number of seconds to wait between status checks
-    statusCheckInterval = pexConfig.Field("interval to wait for condor_q status checks", int, default=5)
+    statusCheckInterval = pexConfig.Field(
+        "interval to wait for condor_q status checks", int, default=5
+    )

@@ -23,8 +23,8 @@
 #
 
 import argparse
-import sys
 import shlex
+import sys
 
 
 def _line_to_args(self, line):
@@ -40,38 +40,32 @@ def makeArgumentParser(description, inRootsRequired=True, addRegistryOption=True
         description=description,
         fromfile_prefix_chars="@",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=" \n"
-               "ly.")
+        epilog=" \n" "ly.",
+    )
     parser.convert_arg_line_to_args = _line_to_args
 
     parser.add_argument(
-        "-s", "--source", dest="source",
-        help="Source site for file transfer.")
+        "-s", "--source", dest="source", help="Source site for file transfer."
+    )
+
+    parser.add_argument("-w", "--workerdir", dest="workerdir", help="workers directory")
+
+    parser.add_argument("-t", "--template", dest="template", help="template file")
+
+    parser.add_argument("-p", "--prescript", dest="prescript", help="pre shell script")
+
+    parser.add_argument("-r", "--runid", dest="runid", help="runid of this job")
 
     parser.add_argument(
-        "-w", "--workerdir", dest="workerdir",
-        help="workers directory")
-
-    parser.add_argument(
-        "-t", "--template", dest="template",
-        help="template file")
-
-    parser.add_argument(
-        "-p", "--prescript", dest="prescript",
-        help="pre shell script")
-
-    parser.add_argument(
-        "-r", "--runid", dest="runid",
-        help="runid of this job")
-
-    parser.add_argument(
-        "-i", "--idsPerJob", dest="idsPerJob",
-        help="number of ids to run per job")
+        "-i", "--idsPerJob", dest="idsPerJob", help="number of ids to run per job"
+    )
 
     return parser
 
 
-def writeDagFile(pipeline, templateFile, infile, workerdir, prescriptFile, runid, idsPerJob):
+def writeDagFile(
+    pipeline, templateFile, infile, workerdir, prescriptFile, runid, idsPerJob
+):
     """
     Write Condor Dag Submission files.
     """
@@ -84,13 +78,13 @@ def writeDagFile(pipeline, templateFile, infile, workerdir, prescriptFile, runid
 
     outObj = open(outname, "w")
 
-    outObj.write("JOB A "+workerdir+"/" + pipeline + ".pre\n")
-    outObj.write("JOB B "+workerdir+"/" + pipeline + ".post\n")
+    outObj.write("JOB A " + workerdir + "/" + pipeline + ".pre\n")
+    outObj.write("JOB B " + workerdir + "/" + pipeline + ".post\n")
     outObj.write(" \n")
 
     print("prescriptFile = ", prescriptFile)
     if prescriptFile is not None:
-        outObj.write("SCRIPT PRE A "+prescriptFile+"\n")
+        outObj.write("SCRIPT PRE A " + prescriptFile + "\n")
 
     print("First Input File loop ")
 
@@ -99,7 +93,7 @@ def writeDagFile(pipeline, templateFile, infile, workerdir, prescriptFile, runid
     count = 0
     for aline in fileObj:
         count += 1
-        outObj.write("JOB A" + str(count) + " "+workerdir+"/" + templateFile + "\n")
+        outObj.write("JOB A" + str(count) + " " + workerdir + "/" + templateFile + "\n")
 
     outObj.write(" \n")
 
@@ -117,28 +111,28 @@ def writeDagFile(pipeline, templateFile, infile, workerdir, prescriptFile, runid
         # No space is something simple like a skytile id
         if " " in myData:
             # Change space to :
-            myList = myData.split(' ')
-            new1Data = '%s:%s:%s' % tuple(myList)
+            myList = myData.split(" ")
+            new1Data = "%s:%s:%s" % tuple(myList)
             # Change = to -
-            myList2 = new1Data.split('=')
-            new2Data = '%s-%s-%s-%s' % tuple(myList2)
+            myList2 = new1Data.split("=")
+            new2Data = "%s-%s-%s-%s" % tuple(myList2)
             # Change , to _
-            myList3 = new2Data.split(',')
-            new3Data = '%s_%s_%s' % tuple(myList3)
+            myList3 = new2Data.split(",")
+            new3Data = "%s_%s_%s" % tuple(myList3)
 
             newData = new3Data
-            visit = myList[0].split('=')[1]
+            visit = myList[0].split("=")[1]
         else:
             newData = myData
             visit = myData
 
         #  VARS A1 var1="visit=887136081 raft=2,2 sensor=0,1"
         #  VARS A1 var2="visit-887136081:raft-2_2:sensor-0_1"
-        outObj.write("VARS A" + str(count) + " var1=\"" + myData + "\" \n")
-        outObj.write("VARS A" + str(count) + " var2=\"" + newData + "\" \n")
-        outObj.write("VARS A" + str(count) + " visit=\"" + visit + "\" \n")
-        outObj.write("VARS A" + str(count) + " runid=\"" + runid + "\" \n")
-        outObj.write("VARS A" + str(count) + " workerid=\"" + str(count) + "\" \n")
+        outObj.write("VARS A" + str(count) + ' var1="' + myData + '" \n')
+        outObj.write("VARS A" + str(count) + ' var2="' + newData + '" \n')
+        outObj.write("VARS A" + str(count) + ' visit="' + visit + '" \n')
+        outObj.write("VARS A" + str(count) + ' runid="' + runid + '" \n')
+        outObj.write("VARS A" + str(count) + ' workerid="' + str(count) + '" \n')
 
     print("Third Input File loop ")
 
@@ -155,12 +149,14 @@ def writeDagFile(pipeline, templateFile, infile, workerdir, prescriptFile, runid
 
 
 def main():
-    print('Starting generateDag.py')
-    parser = makeArgumentParser(description="generateDag.py write a Condor DAG for job submission"
-                                "by reading input list and writing the attribute as an argument.")
-    print('Created parser')
+    print("Starting generateDag.py")
+    parser = makeArgumentParser(
+        description="generateDag.py write a Condor DAG for job submission"
+        "by reading input list and writing the attribute as an argument."
+    )
+    print("Created parser")
     ns = parser.parse_args()
-    print('Parsed Arguments')
+    print("Parsed Arguments")
     print(ns)
 
     # SA
@@ -176,10 +172,18 @@ def main():
     #   processCcdLsstSim
     pipeline = "S2012Pipe"
 
-    writeDagFile(pipeline, ns.template, ns.source, ns.workerdir, ns.prescript, ns.runid, ns.idsPerJob)
+    writeDagFile(
+        pipeline,
+        ns.template,
+        ns.source,
+        ns.workerdir,
+        ns.prescript,
+        ns.runid,
+        ns.idsPerJob,
+    )
 
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -36,15 +36,18 @@ class NamedClassFactory:
     """
 
     def createClass(self, name):
-        dot = name.rindex('.')
+        dot = name.rindex(".")
         pack = name[0:dot]
-        modname = name[dot+1:]
+        modname = name[dot + 1 :]
         # -1 is no longer accepted in python 3
         # module = __import__(name, globals(), locals(), [modname], -1)
         module = __import__(name, globals(), locals(), [modname], 0)
         classobj = getattr(module, modname)
         if classobj is None:
-            raise RuntimeError("Attempt to instantiate class \"" + name +
-                               "\" failed. Could not find that class.")
+            raise RuntimeError(
+                'Attempt to instantiate class "'
+                + name
+                + '" failed. Could not find that class.'
+            )
 
         return classobj

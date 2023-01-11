@@ -22,11 +22,11 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import optparse
 import os
 import os.path
 import sys
 import time
-import optparse
 
 # filewaiter.py - wait for creation of files
 if __name__ == "__main__":
@@ -35,10 +35,22 @@ if __name__ == "__main__":
 
     parser = optparse.OptionParser(usage)
     # TODO: handle "--dryrun"
-    parser.add_option("-f", "--first", action="store_true", default=False,
-                      dest="bFirst", help="wait for first file in list")
-    parser.add_option("-l", "--list", action="store_true", default=False,
-                      dest="bList", help="wait for all the files in the list")
+    parser.add_option(
+        "-f",
+        "--first",
+        action="store_true",
+        default=False,
+        dest="bFirst",
+        help="wait for first file in list",
+    )
+    parser.add_option(
+        "-l",
+        "--list",
+        action="store_true",
+        default=False,
+        dest="bList",
+        help="wait for all the files in the list",
+    )
 
     parser.opts = {}
     parser.args = []
@@ -54,13 +66,13 @@ if __name__ == "__main__":
     bFirst = parser.opts.bFirst
     bList = parser.opts.bList
 
-    f = open(filename, 'r')
+    f = open(filename, "r")
 
     lines = f.readlines()
 
     fileList = []
     for line in lines:
-        list.append(line.split('\n')[0])
+        list.append(line.split("\n")[0])
 
     if bFirst:
         item = fileList[0]

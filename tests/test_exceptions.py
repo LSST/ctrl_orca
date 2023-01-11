@@ -24,8 +24,8 @@
 Tests of orca exceptions
 """
 import unittest
-import lsst.utils.tests
 
+import lsst.utils.tests
 from lsst.ctrl.orca.exceptions import MultiIssueConfigurationError
 
 

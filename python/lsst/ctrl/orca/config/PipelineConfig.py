@@ -10,6 +10,7 @@ class AppStageConfig(pexConfig.Config):
     # stage name
     stageConfig = pexConfig.Field("config name", str)
 
+
 # execution information
 
 
@@ -20,6 +21,7 @@ class ExecuteConfig(pexConfig.Config):
     environment = pexConfig.Field("environment", str)
     # task name
     task = pexConfig.Field("task", str)
+
 
 # framework
 
@@ -32,12 +34,14 @@ class FrameworkConfig(pexConfig.Config):
     # environment used to execute programs
     environment = pexConfig.Field("environment to set up", str)
 
+
 # deployment information
 
 
 class DeployConfig(pexConfig.Config):
     # number of processes per node
     processesOnNode = pexConfig.ListField("processes", str)
+
 
 # definition of pipeline
 

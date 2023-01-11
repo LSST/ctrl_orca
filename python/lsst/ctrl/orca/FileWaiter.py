@@ -21,6 +21,7 @@
 #
 
 import os
+
 import lsst.log as log
 
 
@@ -42,6 +43,7 @@ class FileWaiter:
     -----
     Use of logger in this way should be deprecated in the future
     """
+
     def __init__(self, remoteNode, remoteFileWaiter, fileListName, logger=None):
         log.debug("FileWaiter:__init__")
 
@@ -52,23 +54,29 @@ class FileWaiter:
         self.remoteFileWaiter = remoteFileWaiter
 
     def waitForFirstFile(self):
-        """Waits for first file in the list to come into existence
-        """
+        """Waits for first file in the list to come into existence"""
         log.debug("FileWaiter:waitForFirstFile")
         print("waiting for log file to be created to confirm launch.")
-        cmd = "gsissh %s %s -f %s" % (self.remoteNode, self.remoteFileWaiter, self.fileListName)
+        cmd = "gsissh %s %s -f %s" % (
+            self.remoteNode,
+            self.remoteFileWaiter,
+            self.fileListName,
+        )
         pid = os.fork()
         if not pid:
             os.execvp("gsissh", cmd.split())
         os.wait()[0]
 
     def waitForAllFiles(self):
-        """Waits for all files in the list to come into existence
-        """
+        """Waits for all files in the list to come into existence"""
         log.debug("FileWaiter:waitForAllFiles")
 
         print("waiting for all log files to be created to confirm launch")
-        cmd = "gsissh %s %s -l %s" % (self.remoteNode, self.remoteFileWaiter, self.fileListName)
+        cmd = "gsissh %s %s -l %s" % (
+            self.remoteNode,
+            self.remoteFileWaiter,
+            self.fileListName,
+        )
         pid = os.fork()
         if not pid:
             os.execvp("gsissh", cmd.split())

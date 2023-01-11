@@ -22,11 +22,10 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import lsst.pex.exceptions as pexExcept
+import os
 
 import lsst.daf.base as dafBase
-
-import os
+import lsst.pex.exceptions as pexExcept
 
 
 class Directories:
@@ -82,6 +81,7 @@ class Directories:
     scratchDir : str
         a named directory for temporary files that may be deleted upon completion ofthe pipeline
     """
+
     def __init__(self, dirConfig, shortName, runId="no-id"):
         self.config = dirConfig
 
@@ -96,12 +96,12 @@ class Directories:
         self.defroot = None
 
     def getDefaultRootDir(self):
-        """ accessor to get default root directory
+        """accessor to get default root directory
 
-            Returns
-            -------
-            root : `str`
-                name of the default root directory
+        Returns
+        -------
+        root : `str`
+            name of the default root directory
         """
         if self.defroot is not None:
             return self.defroot

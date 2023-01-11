@@ -21,10 +21,11 @@
 #
 
 import os
+
 import lsst.log as log
-from lsst.ctrl.orca.WorkflowLauncher import WorkflowLauncher
 from lsst.ctrl.orca.CondorJobs import CondorJobs
 from lsst.ctrl.orca.CondorWorkflowMonitor import CondorWorkflowMonitor
+from lsst.ctrl.orca.WorkflowLauncher import WorkflowLauncher
 
 
 class CondorWorkflowLauncher(WorkflowLauncher):
@@ -46,7 +47,9 @@ class CondorWorkflowLauncher(WorkflowLauncher):
         monitor Config
     """
 
-    def __init__(self, prodConfig, wfConfig, runid, localStagingDir, dagFile, monitorConfig):
+    def __init__(
+        self, prodConfig, wfConfig, runid, localStagingDir, dagFile, monitorConfig
+    ):
         log.debug("CondorWorkflowLauncher:__init__")
 
         self.prodConfig = prodConfig
@@ -57,8 +60,7 @@ class CondorWorkflowLauncher(WorkflowLauncher):
         self.monitorConfig = monitorConfig
 
     def cleanUp(self):
-        """Perform cleanup after workflow has ended.
-        """
+        """Perform cleanup after workflow has ended."""
         log.debug("CondorWorkflowLauncher:cleanUp")
 
     def launch(self, statusListener):

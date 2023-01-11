@@ -24,8 +24,7 @@ import lsst.log as log
 
 
 class StatusListener:
-    """Used receive messages about changes in a workflow
-    """
+    """Used receive messages about changes in a workflow"""
 
     # initializer
     def __init__(self):

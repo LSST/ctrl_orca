@@ -20,10 +20,10 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
-from lsst.ctrl.orca.multithreading import SharedData
-from lsst.ctrl.orca.exceptions import MultiIssueConfigurationError
 import lsst.log as log
+from lsst.ctrl.orca.exceptions import MultiIssueConfigurationError
+from lsst.ctrl.orca.multithreading import SharedData
+from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
 
 ##
 # @brief workflow manager base class
@@ -88,15 +88,16 @@ class WorkflowManager:
     #            clean-up.
     #
     def runWorkflow(self, statusListener):
-        """ setup, launch and monitor a workflow to its completion, and then clean up
-        """
+        """setup, launch and monitor a workflow to its completion, and then clean up"""
         log.debug("WorkflowManager:runWorkflow")
 
         if not self.isRunnable():
             if self.isRunning():
                 log.info("Workflow %s is already running" % self.runid)
             if self.isDone():
-                log.info("Workflow %s has already run; start with new runid" % self.runid)
+                log.info(
+                    "Workflow %s has already run; start with new runid" % self.runid
+                )
             return False
 
         try:
@@ -129,7 +130,7 @@ class WorkflowManager:
 
     def cleanUp(self):
         """Carry out post-execution tasks for removing workflow data and state from the
-           platform and archiving/ingesting products as needed.
+        platform and archiving/ingesting products as needed.
         """
 
         log.debug("WorkflowManager:cleanUp")
@@ -157,8 +158,11 @@ class WorkflowManager:
             self._locked.acquire()
 
             self._workflowConfigurator = self.createConfigurator(
-                self.runid, self.repository, self.name, self.wfConfig, self.prodConfig)
-            self._workflowLauncher = self._workflowConfigurator.configure(provSetup, workflowVerbosity)
+                self.runid, self.repository, self.name, self.wfConfig, self.prodConfig
+            )
+            self._workflowLauncher = self._workflowConfigurator.configure(
+                provSetup, workflowVerbosity
+            )
         finally:
             self._locked.release()
 
@@ -193,12 +197,13 @@ class WorkflowManager:
         classFactory = NamedClassFactory()
 
         configuratorClass = classFactory.createClass(className)
-        configurator = configuratorClass(self.runid, repository, prodConfig, wfConfig, wfName)
+        configurator = configuratorClass(
+            self.runid, repository, prodConfig, wfConfig, wfName
+        )
         return configurator
 
     def isRunning(self):
-        """Report whether workflow is currently running
-        """
+        """Report whether workflow is currently running"""
         if self._monitor:
             return self._monitor.isRunning()
         return False
@@ -255,7 +260,9 @@ class WorkflowManager:
 
         myProblems = issueExc
         if myProblems is None:
-            myProblems = MultiIssueConfigurationError("problems encountered while checking configuration")
+            myProblems = MultiIssueConfigurationError(
+                "problems encountered while checking configuration"
+            )
 
         # do the checks
 

@@ -22,26 +22,59 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import requests
-import sys
 import argparse
 import json
+import sys
+
+import requests
 
 # usage:  python bin/shutprod.py host port urgency_level runid
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(prog=sys.argv[0])
 
-    parser.add_argument("-H", "--host", action="store", type=str, dest="host", default=None, required=True)
-    parser.add_argument("-P", "--port", action="store", type=str, dest="port", default=None, required=True)
-    parser.add_argument("-L", "--level", action="store", type=int, dest="level", default=100, required=True)
-    parser.add_argument("-R", "--runid", action="store", type=str, dest="runid", default=None, required=True)
+    parser.add_argument(
+        "-H",
+        "--host",
+        action="store",
+        type=str,
+        dest="host",
+        default=None,
+        required=True,
+    )
+    parser.add_argument(
+        "-P",
+        "--port",
+        action="store",
+        type=str,
+        dest="port",
+        default=None,
+        required=True,
+    )
+    parser.add_argument(
+        "-L",
+        "--level",
+        action="store",
+        type=int,
+        dest="level",
+        default=100,
+        required=True,
+    )
+    parser.add_argument(
+        "-R",
+        "--runid",
+        action="store",
+        type=str,
+        dest="runid",
+        default=None,
+        required=True,
+    )
 
     args = parser.parse_args()
 
-    url = 'http://%s:%s/api/v1/production' % (args.host, args.port)
+    url = "http://%s:%s/api/v1/production" % (args.host, args.port)
 
-    data = {'runid': args.runid, 'level': args.level}
+    data = {"runid": args.runid, "level": args.level}
     data_json = json.dumps(data)
 
     r = requests.delete(url, data=data_json)

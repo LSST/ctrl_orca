@@ -20,11 +20,11 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
-from lsst.ctrl.orca.WorkflowManager import WorkflowManager
+import lsst.log as log
 from lsst.ctrl.orca.config.ProductionConfig import ProductionConfig
 from lsst.ctrl.orca.exceptions import MultiIssueConfigurationError
-import lsst.log as log
+from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
+from lsst.ctrl.orca.WorkflowManager import WorkflowManager
 
 
 class ProductionRunConfigurator:
@@ -91,7 +91,9 @@ class ProductionRunConfigurator:
         """
         log.debug("ProductionRunConfigurator:createWorkflowManager")
 
-        wfManager = WorkflowManager(wfName, self.runid, self.repository, prodConfig, wfConfig)
+        wfManager = WorkflowManager(
+            wfName, self.runid, self.repository, prodConfig, wfConfig
+        )
         return wfManager
 
     def getProvenanceSetup(self):
@@ -153,8 +155,12 @@ class ProductionRunConfigurator:
             wfConfig = workflowConfigs[wfName]
             # copy in appropriate production level info into workflow Node  -- ?
 
-            workflowManager = self.createWorkflowManager(self.prodConfig, wfName, wfConfig)
-            workflowLauncher = workflowManager.configure(self._provSetup, workflowVerbosity)
+            workflowManager = self.createWorkflowManager(
+                self.prodConfig, wfName, wfConfig
+            )
+            workflowLauncher = workflowManager.configure(
+                self._provSetup, workflowVerbosity
+            )
             if workflowLauncher is None:
                 raise MultiIssueConfigurationError("error configuring workflowLauncher")
 
@@ -186,7 +192,9 @@ class ProductionRunConfigurator:
         log.debug("checkConfiguration")
         myProblems = issueExc
         if myProblems is None:
-            myProblems = MultiIssueConfigurationError("problems encountered while checking configuration")
+            myProblems = MultiIssueConfigurationError(
+                "problems encountered while checking configuration"
+            )
 
         for dbconfig in self._databaseConfigurators:
             print("-> dbconfig = ", dbconfig)

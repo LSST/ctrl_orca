@@ -20,18 +20,17 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import stat
-import sys
+import getpass
 import os
 import os.path
-import getpass
+import stat
+import sys
 
 import lsst.log as log
-
-from lsst.ctrl.orca.EnvString import EnvString
-from lsst.ctrl.orca.WorkflowConfigurator import WorkflowConfigurator
 from lsst.ctrl.orca.CondorWorkflowLauncher import CondorWorkflowLauncher
+from lsst.ctrl.orca.EnvString import EnvString
 from lsst.ctrl.orca.TemplateWriter import TemplateWriter
+from lsst.ctrl.orca.WorkflowConfigurator import WorkflowConfigurator
 
 ##
 #
@@ -173,7 +172,9 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             preJobCondorOutputFile = EnvString.resolve(task.preJob.condor.outputFile)
             preJobCondorInputFile = EnvString.resolve(task.preJob.condor.inputFile)
             keywords = task.preJob.condor.keywords
-            self.writeJobScript(preJobCondorOutputFile, preJobCondorInputFile, keywords, preJobScript)
+            self.writeJobScript(
+                preJobCondorOutputFile, preJobCondorInputFile, keywords, preJobScript
+            )
 
             # generate post job
             postJobScript = EnvString.resolve(task.postJob.script.outputFile)
@@ -184,19 +185,31 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             postJobCondorOutputFile = EnvString.resolve(task.postJob.condor.outputFile)
             postJobCondorInputFile = EnvString.resolve(task.postJob.condor.inputFile)
             keywords = task.postJob.condor.keywords
-            self.writeJobScript(postJobCondorOutputFile, postJobCondorInputFile, keywords, postJobScript)
+            self.writeJobScript(
+                postJobCondorOutputFile, postJobCondorInputFile, keywords, postJobScript
+            )
 
             # generate worker job
             workerJobScript = EnvString.resolve(task.workerJob.script.outputFile)
-            workerJobScriptInputFile = EnvString.resolve(task.workerJob.script.inputFile)
+            workerJobScriptInputFile = EnvString.resolve(
+                task.workerJob.script.inputFile
+            )
             keywords = task.workerJob.script.keywords
             self.writeJobScript(workerJobScript, workerJobScriptInputFile, keywords)
 
-            workerJobCondorOutputFile = EnvString.resolve(task.workerJob.condor.outputFile)
-            workerJobCondorInputFile = EnvString.resolve(task.workerJob.condor.inputFile)
+            workerJobCondorOutputFile = EnvString.resolve(
+                task.workerJob.condor.outputFile
+            )
+            workerJobCondorInputFile = EnvString.resolve(
+                task.workerJob.condor.inputFile
+            )
             keywords = task.workerJob.condor.keywords
-            self.writeJobScript(workerJobCondorOutputFile,
-                                workerJobCondorInputFile, keywords, workerJobScript)
+            self.writeJobScript(
+                workerJobCondorOutputFile,
+                workerJobCondorInputFile,
+                keywords,
+                workerJobScript,
+            )
 
             # switch to staging directory
             os.chdir(self.localStagingDir)
@@ -205,12 +218,20 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             log.debug("CondorWorkflowConfigurator:configure: generate pre script")
 
             if task.preScript.script.outputFile is not None:
-                preScriptOutputFile = EnvString.resolve(task.preScript.script.outputFile)
+                preScriptOutputFile = EnvString.resolve(
+                    task.preScript.script.outputFile
+                )
                 preScriptInputFile = EnvString.resolve(task.preScript.script.inputFile)
                 keywords = task.preScript.script.keywords
                 self.writePreScript(preScriptOutputFile, preScriptInputFile, keywords)
-                os.chmod(task.preScript.outputFile, stat.S_IRWXU | stat.S_IRGRP |
-                         stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
+                os.chmod(
+                    task.preScript.outputFile,
+                    stat.S_IRWXU
+                    | stat.S_IRGRP
+                    | stat.S_IXGRP
+                    | stat.S_IROTH
+                    | stat.S_IXOTH,
+                )
 
             # generate dag
             log.debug("CondorWorkflowConfigurator:configure: generate dag")
@@ -219,9 +240,19 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             generatorConfig = task.generator.active
             dagGenerator = EnvString.resolve(generatorConfig.script)
             dagGeneratorInput = EnvString.resolve(generatorConfig.inputFile)
-            dagCreatorCmd = [dagGenerator, "-s", dagGeneratorInput, "-w", task.scriptDir, "-t",
-                             task.workerJob.condor.outputFile, "-r",
-                             self.runid, "--idsPerJob", str(generatorConfig.idsPerJob)]
+            dagCreatorCmd = [
+                dagGenerator,
+                "-s",
+                dagGeneratorInput,
+                "-w",
+                task.scriptDir,
+                "-t",
+                task.workerJob.condor.outputFile,
+                "-r",
+                self.runid,
+                "--idsPerJob",
+                str(generatorConfig.idsPerJob),
+            ]
             if task.preScript.script.outputFile is not None:
                 dagCreatorCmd.append("-p")
                 dagCreatorCmd.append(task.preScript.script.outputFile)
@@ -238,7 +269,7 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             os.wait()[0]
 
             # create dag logs directories
-            fileObj = open(dagGeneratorInput, 'r')
+            fileObj = open(dagGeneratorInput, "r")
             visitSet = set()
             count = 0
             # this info from gd:
@@ -247,11 +278,13 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             # No space is something simple like a skytile id
             for aline in fileObj:
                 count += 1
-                visit = str(count//100)
+                visit = str(count // 100)
                 visitSet.add(visit)
             log.debug("CondorWorkflowConfigurator:configure: about to make logs")
             logDirName = os.path.join(self.localStagingDir, "logs")
-            log.debug("CondorWorkflowConfigurator:configure: logDirName = %s", logDirName)
+            log.debug(
+                "CondorWorkflowConfigurator:configure: logDirName = %s", logDirName
+            )
             logDirName = os.path.join(self.localStagingDir, "logs")
             os.makedirs(logDirName)
             for visit in visitSet:
@@ -264,10 +297,14 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
 
         # create the Launcher
 
-        workflowLauncher = CondorWorkflowLauncher(self.prodConfig, self.wfConfig, self.runid,
-                                                  self.localStagingDir,
-                                                  generatorConfig.dagName + ".diamond.dag",
-                                                  wfConfig.monitor)
+        workflowLauncher = CondorWorkflowLauncher(
+            self.prodConfig,
+            self.wfConfig,
+            self.runid,
+            self.localStagingDir,
+            generatorConfig.dagName + ".diamond.dag",
+            wfConfig.monitor,
+        )
         return workflowLauncher
 
     def writePreScript(self, outputFileName, template, keywords):
@@ -310,7 +347,7 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
             val = keywords[value]
             pairs[value] = val
         if scriptName is not None:
-            pairs["ORCA_SCRIPT"] = self.scriptDir+"/"+scriptName
+            pairs["ORCA_SCRIPT"] = self.scriptDir + "/" + scriptName
         pairs["ORCA_RUNID"] = self.runid
         pairs["ORCA_DEFAULTROOT"] = self.defaultRoot
         writer = TemplateWriter()
@@ -332,7 +369,7 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
         for value in template.keywords:
             val = template.keywords[value]
             pairs[value] = val
-        pairs["ORCA_REMOTE_WORKDIR"] = self.defaultRoot+"/"+self.runid
+        pairs["ORCA_REMOTE_WORKDIR"] = self.defaultRoot + "/" + self.runid
         if "ORCA_START_OWNER" not in pairs:
             pairs["ORCA_START_OWNER"] = getpass.getuser()
 
@@ -340,8 +377,7 @@ class CondorWorkflowConfigurator(WorkflowConfigurator):
         writer.rewrite(inputFile, template.outputFile, pairs)
 
     def getWorkflowName(self):
-        """get the workflow name
-        """
+        """get the workflow name"""
         return self.wfName
 
     # @deprecated

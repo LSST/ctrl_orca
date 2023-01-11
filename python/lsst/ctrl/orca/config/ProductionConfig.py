@@ -1,7 +1,8 @@
 import lsst.pex.config as pexConfig
+
+from . import DatabaseConfig as db  # noqa: N813
 from . import FakeTypeMap as fake  # noqa: N813
 from . import WorkflowConfig as work  # noqa: N813
-from . import DatabaseConfig as db  # noqa: N813
 
 # production level configuration
 
@@ -9,6 +10,7 @@ from . import DatabaseConfig as db  # noqa: N813
 class ProductionLevelConfig(pexConfig.Config):
     # class that handles production level
     configurationClass = pexConfig.Field("configuration class", str)
+
 
 # production information
 
@@ -27,7 +29,10 @@ class Production(pexConfig.Config):
     logThreshold = pexConfig.Field("logging threshold", int)
 
     # production configuration class
-    configuration = pexConfig.ConfigField("production level config", ProductionLevelConfig)
+    configuration = pexConfig.ConfigField(
+        "production level config", ProductionLevelConfig
+    )
+
 
 # production configuration
 
@@ -37,10 +42,14 @@ class ProductionConfig(pexConfig.Config):
     production = pexConfig.ConfigField("production configuration", Production)
 
     # database configuration
-    database = pexConfig.ConfigChoiceField("database information", fake.FakeTypeMap(db.DatabaseConfig))
+    database = pexConfig.ConfigChoiceField(
+        "database information", fake.FakeTypeMap(db.DatabaseConfig)
+    )
 
     # workflow configuration
-    workflow = pexConfig.ConfigChoiceField("workflow", fake.FakeTypeMap(work.WorkflowConfig))
+    workflow = pexConfig.ConfigChoiceField(
+        "workflow", fake.FakeTypeMap(work.WorkflowConfig)
+    )
 
     # config check
     configCheckCare = pexConfig.Field("config check care", int, default=-1)
