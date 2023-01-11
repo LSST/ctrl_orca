@@ -26,7 +26,6 @@ import logging
 import optparse
 
 import lsst.ctrl.orca as orca
-
 from lsst.ctrl.orca.ProductionRunManager import ProductionRunManager
 
 usage = """usage: %prog [-gndvqsc] [-r dir] [-e script] [-V int][-L lev] pipelineConfigFile runId"""
