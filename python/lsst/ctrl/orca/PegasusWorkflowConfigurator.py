@@ -189,7 +189,8 @@ class PegasusWorkflowConfigurator(WorkflowConfigurator):
             log.debug("PegasusWorkflowConfigurator:configure: generate dax")
             daxGeneratorInput = EnvString.resolve(generatorConfig.inputFile)
 
-            # change into the local staging area to create the DAX file, and its output
+            # change into the local staging area to create the DAX file, and
+            # its output.
             os.chdir(self.localStagingDir)
             daxCreatorCmd = [daxGenerator, "-i", daxGeneratorInput, "-o", "output.dax"]
 

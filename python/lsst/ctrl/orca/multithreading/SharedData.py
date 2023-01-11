@@ -30,14 +30,17 @@ class SharedData:
     Parameters
     ----------
     needLockOnRead : `bool`
-        If true (default), acquiring the lock will be needed when reading the data.  This
-        is recommended if the data items are anything but primitive types; otherwise,
-        a compound data item (e.g. of type dict) could be updated without acquiring a lock.
+        If true (default), acquiring the lock will be needed when reading the
+        data.  This is recommended if the data items are anything but primitive
+        types; otherwise, a compound data item (e.g. of type dict) could be
+        updated without acquiring a lock.
     data : `dict`
-        A dictionary of data to initialize the container with.  This is done by calling
-        initData().  Set this value to False when calling from a subclass constructor; this
-        will allow any non-protected attributes to be set via the subclass's constructor.  If
-        None is given (default), it is assumed that all new attributes will be considered protected data.
+        A dictionary of data to initialize the container with.  This is done by
+        calling initData().  Set this value to False when calling from a
+        subclass constructor; this will allow any non-protected attributes to
+        be set via the subclass's constructor.  If None is given (default),
+        it is assumed that all new attributes will be considered protected
+        data.
     cond : `bool`
         Reuse this existing Condition instance to protect this container
 
@@ -126,15 +129,16 @@ class SharedData:
         Parameters
         ----------
         data : `dict`
-            A dictionary of data to initialize the container with.  Attributes will be added to
-            this container with names matching the given the dictionary's key names and
-            initialized to their corresponding values.  The keys cannot match an existing
-            function (or internal attribute) name.
+            A dictionary of data to initialize the container with.  Attributes
+            will be added to this container with names matching the given the
+            dictionary's key names and initialized to their corresponding
+            values.  The keys cannot match an existing function (or internal
+            attribute) name.
 
         Raises
         ------
-        ValueError if the dictionary has a key that conflicts with an existing function or
-        internal attribute name.
+        ValueError if the dictionary has a key that conflicts with an existing
+        function or internal attribute name.
         """
         with self._cond:
             bad = []

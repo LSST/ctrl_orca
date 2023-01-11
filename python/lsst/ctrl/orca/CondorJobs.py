@@ -84,11 +84,12 @@ class CondorJobs:
         Notes
         -----
         expected output:
+
         -- Submitter: srp@lsst6.ncsa.uiuc.edu : <141.142.15.103:40900> : lsst6.ncsa.uiuc.edu
          ID      OWNER            SUBMITTED     RUN_TIME ST PRI SIZE CMD
         1016.0   srp             5/24 09:17   0+00:00:00 I  0   0.0  launch_joboffices_
         1017.0   srp             5/24 09:18   0+00:00:00 R  0   0.0  launch_joboffices_
-        """
+        """  # noqa: W505
         log.debug("CondorJobs:waitForJobToRun")
         jobNum = "%s.0" % num
         queueExp = re.compile(r"\S+")
@@ -198,14 +199,16 @@ class CondorJobs:
         """
         log.debug("CondorJobs: condorSubmitDag %s", filename)
         # Just a note about why this was done this way...
-        # There's something wierd about how "condor_submit_dag" prints it's output.
-        # If you run it on the command line, it'll print the "1 job(s) submitted"
-        # message as one of the last lines of output.
+        # There's something wierd about how "condor_submit_dag" prints its
+        # output.
+        # If you run it on the command line, it'll print the
+        # "1 job(s) submitted" message as one of the last lines of output.
         # If you redirect output, even on the command line, to a file, it will
         # be one of the first lines.
         # In an effort to avoid having to fix any output behavior issues in the
-        # future, we just try and match every line of output with "1 jobs(s) submitted"
-        # and if we find, it, we grab the cluster id out of that line.
+        # future, we just try and match every line of output with
+        # "1 jobs(s) submitted" and if we find, it, we grab the cluster id
+        # out of that line.
         clusterexp = re.compile(r"1 job\(s\) submitted to cluster (\d+).")
         cmd = "condor_submit_dag %s" % filename
         log.debug(cmd)

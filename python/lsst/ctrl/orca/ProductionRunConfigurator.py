@@ -124,7 +124,8 @@ class ProductionRunConfigurator:
         # TODO - IMPORTANT - NEXT TWO LINES ARE FOR PROVENANCE
         # --------------
         # self._provSetup = ProvenanceSetup()
-        # self._provSetup.addAllProductionConfigFiles(self._prodConfigFile, self.repository)
+        # self._provSetup.addAllProductionConfigFiles(self._prodConfigFile,
+        #                                             self.repository)
         # --------------
 
         #
@@ -153,7 +154,7 @@ class ProductionRunConfigurator:
         workflowManagers = []
         for wfName in workflowConfigs:
             wfConfig = workflowConfigs[wfName]
-            # copy in appropriate production level info into workflow Node  -- ?
+            # copy in appropriate production level info into workflow Node -- ?
 
             workflowManager = self.createWorkflowManager(
                 self.prodConfig, wfName, wfConfig
@@ -185,9 +186,9 @@ class ProductionRunConfigurator:
 
         Notes
         -----
-        If issueExc is not None, this method will not raise an exception when problems are encountered;
-        they will merely be added to the instance.  It is assumed that the caller will raise the
-        exception as necessary.
+        If issueExc is not None, this method will not raise an exception when
+        problems are encountered; they will merely be added to the instance.
+        It is assumed that the caller will raise the exception as necessary.
         """
         log.debug("checkConfiguration")
         myProblems = issueExc
@@ -224,8 +225,8 @@ class ProductionRunConfigurator:
         return configurator
 
     def _specializedConfigure(self, specialConfigurationConfig):
-        """Do any production-wide setup not covered by the setup of the # databases or the individual
-           workflows.
+        """Do any production-wide setup not covered by the setup of the #
+        databases or the individual workflows.
 
         Parameters
         ----------

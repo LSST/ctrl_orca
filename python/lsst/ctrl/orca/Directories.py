@@ -79,7 +79,8 @@ class Directories:
     updateDir : str
         a named directory where updatable data is deployed
     scratchDir : str
-        a named directory for temporary files that may be deleted upon completion ofthe pipeline
+        a named directory for temporary files that may be deleted upon
+        completion ofthe pipeline.
     """
 
     def __init__(self, dirConfig, shortName, runId="no-id"):
@@ -145,12 +146,12 @@ class Directories:
         -----------------
         A named directory is one that is intended for a particular role
         and accessible via a logical name.  These include:
-            work             the working directory (where the pipeline is started)
-            input            the directory to cache or find input data
-            output           the directory to write output data
-            update           the directory where updateable data is deployed
-            scratch          a directory for temporary files that may be
-                             deleted upon completion of the pipeline.
+            work          the working directory (where the pipeline is started)
+            input         the directory to cache or find input data
+            output        the directory to write output data
+            update        the directory where updateable data is deployed
+            scratch       a directory for temporary files that may be
+                          deleted upon completion of the pipeline.
         This function does not check that the name is one of these, so other
         names are supported.  If a name is give that was not specified in the
         config, the update directory is returned.
@@ -178,7 +179,8 @@ class Directories:
         Returns
         -------
         out : PropertySet
-            PropertySet whose keys consist of "work", "input", "output", "update", and "scratch".
+            PropertySet whose keys consist of "work", "input", "output",
+            "update", and "scratch".
         """
         out = dafBase.PropertySet()
         for name in "workDir inputDir outputDir updateDir scratchDir".split():

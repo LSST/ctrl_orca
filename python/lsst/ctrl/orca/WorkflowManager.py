@@ -88,7 +88,8 @@ class WorkflowManager:
     #            clean-up.
     #
     def runWorkflow(self, statusListener):
-        """setup, launch and monitor a workflow to its completion, and then clean up"""
+        """setup, launch and monitor a workflow to its completion, and then
+        clean up"""
         log.debug("WorkflowManager:runWorkflow")
 
         if not self.isRunnable():
@@ -129,8 +130,8 @@ class WorkflowManager:
             log.info("Workflow %s is not running" % self.name)
 
     def cleanUp(self):
-        """Carry out post-execution tasks for removing workflow data and state from the
-        platform and archiving/ingesting products as needed.
+        """Carry out post-execution tasks for removing workflow data and
+        state from the platform and archiving/ingesting products as needed.
         """
 
         log.debug("WorkflowManager:cleanUp")
@@ -184,8 +185,8 @@ class WorkflowManager:
         wfConfig : Config
              the config describing the workflow
         prodConfig : Config
-             the config describing the overall production.  This provides common data
-             that needs to be shared with all pipelines.
+             the config describing the overall production.  This provides
+             common data that needs to be shared with all pipelines.
 
         Returns
         -------
@@ -217,8 +218,8 @@ class WorkflowManager:
 
         Notes
         -----
-        This will be true if the workflow has run normally through cleaned up or if it was stopped
-        and clean-up has been called.
+        This will be true if the workflow has run normally through cleaned up
+        or if it was stopped and clean-up has been called.
         """
         log.debug("WorkflowManager:isDone")
         if self._monitor:
@@ -234,7 +235,8 @@ class WorkflowManager:
 
         Notes
         -----
-        This may return False because the workflow has already been run and cannot be re-run.
+        This may return False because the workflow has already been run and
+        cannot be re-run.
         """
         log.debug("WorkflowManager:isRunnable")
         return not self.isRunning() and not self.isDone()
@@ -249,11 +251,13 @@ class WorkflowManager:
         Parameters
         ----------
         care : `int`
-             the thoroughness of the checks. In general, a higher number will result in more checks.
+             the thoroughness of the checks. In general, a higher number will
+             result in more checks.
         issueExc : `MultiIssueConfigurationError`
-             An instance of MultiIssueConfigurationError to add problems to.  If not None, this
-             function will not raise an exception when problems are encountered; they will
-             merely be added to the instance.  It is assumed that the caller will raise that
+             An instance of MultiIssueConfigurationError to add problems to.
+             If not None, this function will not raise an exception when
+             problems are encountered; they will merely be added to the
+             instance.  It is assumed that the caller will raise that
              exception is necessary.
         """
         log.debug("WorkflowManager:createConfiguration")

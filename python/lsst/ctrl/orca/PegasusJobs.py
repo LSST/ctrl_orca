@@ -37,28 +37,28 @@ class PegasusJobs(CondorJobs):
         return
 
     def pegasusSubmitDax(self, sitesFile, transformationFile, daxFile):
-        """Submit a pegagus dax and return its cluster number
+        """Submit a pegagus dax and return its cluster number.
 
         Parameters
         ----------
         daxFile : `str`
             name of pegasus DAX file
-        """
-        log.debug("PegasusJobs: pegasusSubmitDax %s", daxFile)
-        """
-        Notes - This is the type of output we're dealing with....
+
+        Notes
         -----
-        ---expected output begin---
+        This is the type of output we're dealing with....
+
+        ---expected output begin---  # noqa
         2017.02.07 14:06:53.482 CST:
         2017.02.07 14:06:53.488 CST:   -----------------------------------------------------------------------
-        2017.02.07 14:06:53.493 CST:   File for submitting this DAG to HTCondor           : CiHscDax-0.dag.condor.sub  # noqa: E501
-        2017.02.07 14:06:53.498 CST:   Log of DAGMan debugging messages                 : CiHscDax-0.dag.dagman.out  # noqa: E501
-        2017.02.07 14:06:53.504 CST:   Log of HTCondor library output                     : CiHscDax-0.dag.lib.out  # noqa: E501
-        2017.02.07 14:06:53.509 CST:   Log of HTCondor library error messages             : CiHscDax-0.dag.lib.err  # noqa: E501
-        2017.02.07 14:06:53.514 CST:   Log of the life of condor_dagman itself          : CiHscDax-0.dag.dagman.log  # noqa: E501
+        2017.02.07 14:06:53.493 CST:   File for submitting this DAG to HTCondor           : CiHscDax-0.dag.condor.sub
+        2017.02.07 14:06:53.498 CST:   Log of DAGMan debugging messages                 : CiHscDax-0.dag.dagman.out
+        2017.02.07 14:06:53.504 CST:   Log of HTCondor library output                     : CiHscDax-0.dag.lib.out
+        2017.02.07 14:06:53.509 CST:   Log of HTCondor library error messages             : CiHscDax-0.dag.lib.err
+        2017.02.07 14:06:53.514 CST:   Log of the life of condor_dagman itself          : CiHscDax-0.dag.dagman.log
         2017.02.07 14:06:53.519 CST:
 
-        2017.02.07 14:06:53.525 CST:   -no_submit given, not submitting DAG to HTCondor.  You can do this with:  # noqa: E501
+        2017.02.07 14:06:53.525 CST:   -no_submit given, not submitting DAG to HTCondor.  You can do this with:
         2017.02.07 14:06:53.535 CST:   -----------------------------------------------------------------------
         2017.02.07 14:06:55.207 CST:   Your database is compatible with Pegasus version: 4.7.0
         2017.02.07 14:06:55.326 CST:   Submitting to condor CiHscDax-0.dag.condor.sub
@@ -72,15 +72,17 @@ class PegasusJobs(CondorJobs):
         2017.02.07 14:06:55.414 CST:
         2017.02.07 14:06:55.419 CST:   *** To monitor the workflow you can run ***
         2017.02.07 14:06:55.424 CST:
-        2017.02.07 14:06:55.429 CST:     pegasus-status -l /scratch/srp/condor_scratch/srp_2017_0207_110530/scripts/submit/srp/pegasus/CiHscDax/run0008  # noqa: E501
+        2017.02.07 14:06:55.429 CST:     pegasus-status -l /scratch/srp/condor_scratch/srp_2017_0207_110530/scripts/submit/srp/pegasus/CiHscDax/run0008
         2017.02.07 14:06:55.435 CST:
         2017.02.07 14:06:55.440 CST:   *** To remove your workflow run ***
         2017.02.07 14:06:55.445 CST:
-        2017.02.07 14:06:55.451 CST:     pegasus-remove /scratch/srp/condor_scratch/srp_2017_0207_110530/scripts/submit/srp/pegasus/CiHscDax/run0008  # noqa: E501
+        2017.02.07 14:06:55.451 CST:     pegasus-remove /scratch/srp/condor_scratch/srp_2017_0207_110530/scripts/submit/srp/pegasus/CiHscDax/run0008
         2017.02.07 14:06:55.456 CST:
         2017.02.07 14:06:55.637 CST:   Time taken to execute is 3.555 seconds
         ---expected output end---
         """
+
+        log.debug("PegasusJobs: pegasusSubmitDax %s", daxFile)
 
         # expressions to match
         clusterexp = re.compile(r".*1 job\(s\) submitted to cluster (\d+).")

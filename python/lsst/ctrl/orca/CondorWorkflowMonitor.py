@@ -88,7 +88,8 @@ class CondorWorkflowMonitor(WorkflowMonitor):
             self.monitorConfig = monitorConfig
 
         def run(self):
-            """Continously monitor life of workflow, shutting down when complete"""
+            """Continously monitor life of workflow, shutting down when
+            complete."""
             cj = CondorJobs()
             log.debug("CondorWorkflowMonitor Thread started")
             statusCheckInterval = int(self.monitorConfig.statusCheckInterval)

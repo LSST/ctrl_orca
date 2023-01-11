@@ -25,7 +25,8 @@ from lsst.ctrl.orca.multithreading import SharedData
 
 
 class WorkflowMonitor:
-    """In charge of monitoring and/or controlling the progress of a running workflow."""
+    """In charge of monitoring and/or controlling the progress of a running
+    workflow."""
 
     def __init__(self):
         # _locked: a container for data to be shared across threads that

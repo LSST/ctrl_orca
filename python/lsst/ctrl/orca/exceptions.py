@@ -35,9 +35,9 @@ class MultiIssueConfigurationError(ConfigurationError):
     Parameters
     ----------
     msg : `str`, optional
-        The general message to report when more than problem has been encountered.  If only one
-        problem is added to this exception, that problem message will be displayed.  If None, a
-        generic message is set.
+        The general message to report when more than problem has been
+        encountered.  If only one problem is added to this exception, that
+        problem message will be displayed.  If None, a generic message is set.
     problem: `str`, optional
         The first problem to add to this exception.
 

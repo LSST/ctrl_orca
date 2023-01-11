@@ -50,7 +50,8 @@ def MakeServiceHandlerClass(productionRunManager, runid):
 
 
 class ProductionRunManager:
-    """In charge of launching, monitoring, managing, and stopping a production run
+    """In charge of launching, monitoring, managing, and stopping a production
+    run.
 
     Parameters
     ----------
@@ -59,7 +60,8 @@ class ProductionRunManager:
     configFileName : `Config`
          production run config file
     repository : `str`, optional
-         the config repository to assume; this will override the value in the config file
+         the config repository to assume; this will override the value in the
+         config file
     """
 
     def __init__(self, runid, configFileName, repository=None):
@@ -124,16 +126,19 @@ class ProductionRunManager:
         Parameters
         ----------
         workflowVerbosity : `int`
-            The verbosity to pass down to configured workflows and the pipelines they run.
+            The verbosity to pass down to configured workflows and the
+            pipelines they run.
 
         Raises
         ------
         `ConfigurationError`
-            If any error arises during configuration or while checking the configuration.
+            If any error arises during configuration or while checking the
+            configuration.
 
         Notes
         -----
-        If the production was already configured, this call will be ignored and will not be reconfigured.
+        If the production was already configured, this call will be ignored
+        and will not be reconfigured.
         """
 
         if self._productionRunConfigurator:
@@ -173,12 +178,14 @@ class ProductionRunManager:
         Raises
         ------
         `ConfigurationError`
-            if any error arises during configuration or while checking the configuration.
+            if any error arises during configuration or while checking the
+            configuration.
 
         Notes
         -----
-        The skipConfigCheck parameter will be overridden by configCheckCare config parameter, if it exists.
-        The workflowVerbosity parameter will only be used if the run has not already been configured via
+        The skipConfigCheck parameter will be overridden by configCheckCare
+        config parameter, if it exists. The workflowVerbosity parameter will
+        only be used if the run has not already been configured via
         configure().
         """
         log.debug("Running production: %s", self.runid)
@@ -284,8 +291,9 @@ class ProductionRunManager:
 
         Notes
         -----
-        Production is runnable if it isn't already running, or hasn't already been completed.  It
-        can not be re-started once it's already running, or re-run if it has been completed.
+        Production is runnable if it isn't already running, or hasn't already
+        been completed.  It can not be re-started once it's already running,
+        or re-run if it has been completed.
         """
         return not self.isRunning() and not self.isDone()
 
@@ -301,7 +309,8 @@ class ProductionRunManager:
 
         Returns
         -------
-        Initialized ProductionRunConfigurator of the type specified in configFile
+        Initialized ProductionRunConfigurator of the type specified in
+        configFile
         """
         log.debug("ProductionRunManager:createConfigurator")
 
@@ -328,9 +337,9 @@ class ProductionRunManager:
         Notes
         -----
         In general, the higher the care number, the more checks that are made.
-        If issueExc is not None, this method will not raise an exception when problems are
-        encountered;  they will be added to the issueExc instance.  It is assumed that the caller
-        will raise that exception as necessary.
+        If issueExc is not None, this method will not raise an exception when
+        problems are encountered;  they will be added to the issueExc instance.
+        It is assumed that the caller will raise that exception as necessary.
         """
 
         log.debug("checkConfiguration")
@@ -381,10 +390,13 @@ class ProductionRunManager:
         -----
         For urgency, it is intended that recognized values should be:
 
-        FINISH_PENDING_DATA - end after all currently available data has been processed
+        FINISH_PENDING_DATA - end after all currently available data has been
+                              processed
         END_ITERATION       - end after the current data looping iteration
-        CHECKPOINT          - end at next checkpoint opportunity (typically between stages)
-        NOW                 - end as soon as possible, foregoing any check-pointing
+        CHECKPOINT          - end at next checkpoint opportunity (typically
+                              between stages)
+        NOW                 - end as soon as possible, foregoing any
+                              check-pointing.
         """
         if not self.isRunning():
             log.info("shutdown requested when production is not running")
@@ -417,7 +429,8 @@ class ProductionRunManager:
         return True
 
     def getWorkflowNames(self):
-        """Accessor to return the "short" name for each workflow in this production.
+        """Accessor to return the "short" name for each workflow in this
+        production.
 
         Returns
         -------
@@ -426,8 +439,9 @@ class ProductionRunManager:
 
         Notes
         -----
-        These names may have been adjusted to ensure a unique list.  These are names that can be
-        passed by getWorkflowManager().   "Short" names are aliases to the workflows.
+        These names may have been adjusted to ensure a unique list.  These are
+        names that can be passed by getWorkflowManager().   "Short" names are
+        aliases to the workflows.
         """
         if self._workflowManagers:
             return self._workflowManagers["__order"]
@@ -448,8 +462,8 @@ class ProductionRunManager:
         Returns
         -------
         wfMgr : `WorkflowManager`
-            A WorkflowManager instance or None if it has not been created yet or name is not one of
-            the names returned by getWorkflowNames()
+            A WorkflowManager instance or None if it has not been created yet
+            or name is not one of the names returned by getWorkflowNames()
         """
 
         if not self._workflowManagers or name not in self._workflowManagers:
@@ -471,8 +485,8 @@ class ProductionRunManager:
                 self.handle_request()
 
     class _ServiceEndpoint(threading.Thread):
-        """This thread deals with incoming requests, and if one is received during production, we
-           shut everything down.
+        """This thread deals with incoming requests, and if one is received
+        during production, we shut everything down.
 
         Parameters
         ----------

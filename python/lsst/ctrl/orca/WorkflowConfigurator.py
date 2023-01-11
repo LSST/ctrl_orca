@@ -67,7 +67,8 @@ class WorkflowConfigurator:
 
         Notes
         -----
-        Names and numbers are assigned to ConfigGroups in order to address them either way.
+        Names and numbers are assigned to ConfigGroups in order to address
+        them either way.
         """
 
         def __init__(self, name, config, number, offset):
@@ -138,7 +139,8 @@ class WorkflowConfigurator:
         )
 
     def configure(self, provSetup, workflowVerbosity=None):
-        """Configure the workflow (including database, and any specialized required setup)
+        """Configure the workflow (including database, and any specialized
+        required setup)
 
         Parameters
         ----------
@@ -185,7 +187,8 @@ class WorkflowConfigurator:
         return
 
     def _configureSpecialized(self, wfConfig):
-        """Complete non-database setup, including deploying the workfow and it's pipelines
+        """Complete non-database setup, including deploying the workfow and
+        its pipelines.
 
         Notes
         -----
@@ -204,7 +207,8 @@ class WorkflowConfigurator:
 
         Notes
         -----
-        This abstract method must be overridden; otherwise an exception is raised
+        This abstract method must be overridden; otherwise an exception is
+        raised.
         """
 
         msg = 'called "abstract" WorkflowConfigurator._createWorkflowLauncher'

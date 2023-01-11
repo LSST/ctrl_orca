@@ -40,8 +40,10 @@ class TemplateWriter:
         return
 
     def rewrite(self, inputFile, outputFile, pairs):
-        """Given a input template, take the keys from the key/values in the config
-           object and substitute the values, and write those to the output file.
+        """Given a input template, take the keys from the key/values in the
+        config object and substitute the values, and write those to the output
+        file.
+
         Parameters
         ----------
         inputFile : `str`
