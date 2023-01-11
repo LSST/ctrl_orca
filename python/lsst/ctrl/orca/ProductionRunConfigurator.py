@@ -20,11 +20,14 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import lsst.log as log
+import logging
+
 from lsst.ctrl.orca.config.ProductionConfig import ProductionConfig
 from lsst.ctrl.orca.exceptions import MultiIssueConfigurationError
 from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
 from lsst.ctrl.orca.WorkflowManager import WorkflowManager
+
+log = logging.getLogger(__name__)
 
 
 class ProductionRunConfigurator:

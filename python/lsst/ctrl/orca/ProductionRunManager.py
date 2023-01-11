@@ -20,6 +20,7 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import os
 import os.path
 import socket
@@ -28,7 +29,6 @@ import time
 from http.server import HTTPServer
 from socketserver import ThreadingMixIn
 
-import lsst.log as log
 from lsst.ctrl.orca.config.ProductionConfig import ProductionConfig
 from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
 from lsst.ctrl.orca.StatusListener import StatusListener
@@ -38,6 +38,8 @@ from .exceptions import ConfigurationError, MultiIssueConfigurationError
 from .multithreading import SharedData
 from .ProductionRunConfigurator import ProductionRunConfigurator
 from .ServiceHandler import ServiceHandler
+
+log = logging.getLogger(__name__)
 
 
 def MakeServiceHandlerClass(productionRunManager, runid):

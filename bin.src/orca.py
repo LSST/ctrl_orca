@@ -22,13 +22,11 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import optparse
-import os
-import os.path
 
 import lsst.ctrl.orca as orca
-import lsst.log as log
-import lsst.utils
+
 from lsst.ctrl.orca.ProductionRunManager import ProductionRunManager
 
 usage = """usage: %prog [-gndvqsc] [-r dir] [-e script] [-V int][-L lev] pipelineConfigFile runId"""
@@ -124,16 +122,6 @@ parser.add_option(
     help="pipeline verbosity level (0=normal, 1=debug, -1=quiet, -3=silent)",
 )
 
-parser.add_option(
-    "-L",
-    "--logconfig",
-    type="string",
-    action="store",
-    dest="logconfig",
-    default=None,
-    help="lsst.log configuration file",
-)
-
 parser.opts = {}
 parser.args = []
 
@@ -155,12 +143,8 @@ orca.envscript = parser.opts.envscript
 # orca.logger = Log(Log.getDefaultLog(), "orca")
 
 configPath = None
-if parser.opts.logconfig is None:
-    package = lsst.utils.getPackageDir("ctrl_orca")
-    configPath = os.path.join(package, "etc", "log4j.properties")
-else:
-    configPath = parser.opts.logconfig
-log.configure(configPath)
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("lsst.orca")
 
 orca.verbosity = parser.opts.verbosity
 

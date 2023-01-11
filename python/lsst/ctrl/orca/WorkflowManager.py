@@ -20,11 +20,13 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import lsst.log as log
+import logging
+
 from lsst.ctrl.orca.exceptions import MultiIssueConfigurationError
 from lsst.ctrl.orca.multithreading import SharedData
 from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
 
+log = logging.getLogger(__name__)
 ##
 # @brief workflow manager base class
 #

@@ -21,16 +21,18 @@
 #
 
 import getpass
+import logging
 import os
 import os.path
 import stat
 import sys
 
-import lsst.log as log
 from lsst.ctrl.orca.CondorWorkflowLauncher import CondorWorkflowLauncher
 from lsst.ctrl.orca.EnvString import EnvString
 from lsst.ctrl.orca.TemplateWriter import TemplateWriter
 from lsst.ctrl.orca.WorkflowConfigurator import WorkflowConfigurator
+
+log = logging.getLogger(__name__)
 
 ##
 #

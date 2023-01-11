@@ -20,8 +20,11 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import lsst.log as log
+import logging
+
 from lsst.ctrl.orca.multithreading import SharedData
+
+log = logging.getLogger(__name__)
 
 
 class WorkflowMonitor:

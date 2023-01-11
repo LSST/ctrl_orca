@@ -22,12 +22,13 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import os
 import re
 import subprocess
 import time
 
-import lsst.log as log
+log = logging.getLogger(__name__)
 
 
 class CondorJobs:

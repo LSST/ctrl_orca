@@ -20,8 +20,11 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import lsst.log as log
+import logging
+
 from lsst.ctrl.orca.NamedClassFactory import NamedClassFactory
+
+log = logging.getLogger(__name__)
 
 ##
 # @brief an abstract class for configuring a workflow

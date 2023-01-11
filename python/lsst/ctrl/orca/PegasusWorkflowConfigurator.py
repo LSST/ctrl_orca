@@ -20,16 +20,18 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import os
 import os.path
 import sys
 from shutil import copy
 
-import lsst.log as log
 from lsst.ctrl.orca.EnvString import EnvString
 from lsst.ctrl.orca.PegasusWorkflowLauncher import PegasusWorkflowLauncher
 from lsst.ctrl.orca.TemplateWriter import TemplateWriter
 from lsst.ctrl.orca.WorkflowConfigurator import WorkflowConfigurator
+
+log = logging.getLogger(__name__)
 
 ##
 #

@@ -20,11 +20,13 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import re
 import subprocess
 
-import lsst.log as log
 from lsst.ctrl.orca.CondorJobs import CondorJobs
+
+log = logging.getLogger(__name__)
 
 
 class PegasusJobs(CondorJobs):

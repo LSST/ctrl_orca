@@ -20,7 +20,9 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
-import lsst.log as log
+import logging
+
+log = logging.getLogger(__name__)
 
 
 class StatusListener:

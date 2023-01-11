@@ -1,4 +1,3 @@
-#
 # LSST Data Management System
 # Copyright 2008, 2009, 2010 LSST Corporation.
 #
@@ -20,13 +19,15 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import threading
 import time
 
-import lsst.log as log
 from lsst.ctrl.orca.CondorJobs import CondorJobs
 from lsst.ctrl.orca.multithreading import SharedData
 from lsst.ctrl.orca.WorkflowMonitor import WorkflowMonitor
+
+log = logging.getLogger(__name__)
 
 
 # HTCondor workflow monitor

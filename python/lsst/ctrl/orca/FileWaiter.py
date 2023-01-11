@@ -20,9 +20,10 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import os
 
-import lsst.log as log
+log = logging.getLogger(__name__)
 
 
 class FileWaiter:
@@ -36,8 +37,8 @@ class FileWaiter:
         name of the remote file waiter script
     fileListName : `str`
         name of the remote file list file
-    logger: `Log`, optional
-        lsst.log logging object
+    logger: `logging.Logger`, optional
+        Logging object
 
     Notes
     -----

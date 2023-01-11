@@ -20,12 +20,14 @@
 # see <http://www.lsstcorp.org/LegalNotices/>.
 #
 
+import logging
 import os
 
-import lsst.log as log
 from lsst.ctrl.orca.CondorWorkflowMonitor import CondorWorkflowMonitor
 from lsst.ctrl.orca.PegasusJobs import PegasusJobs
 from lsst.ctrl.orca.WorkflowLauncher import WorkflowLauncher
+
+log = logging.getLogger(__name__)
 
 
 class PegasusWorkflowLauncher(WorkflowLauncher):
